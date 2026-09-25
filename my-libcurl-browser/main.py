@@ -1,6 +1,7 @@
 import pycurl
 from io import BytesIO
 import json
+import webbrowser
 
 def load_config():
     try:
@@ -28,12 +29,20 @@ def main():
 
     print("Simple Libcurl Browser")
     print("Type a URL to fetch its HTML.")
+    print("Type 'open' after a URL to open it in your real browser.")
     print("Type 'exit' to quit.\n")
 
     while True:
         url = input("URL: ").strip()
         if url.lower() == "exit":
             break
+
+        # If user types "open <url>"
+        if url.lower().startswith("open "):
+            real_url = url.split(" ", 1)[1]
+            print(f"Opening {real_url} in your browser...")
+            webbrowser.open(real_url)
+            continue
 
         try:
             html = fetch(url, proxy)
