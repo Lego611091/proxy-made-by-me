@@ -29,7 +29,7 @@ def main():
 
     print("Simple Libcurl Browser")
     print("Type a URL to fetch its HTML.")
-    print("Type 'open' after a URL to open it in your real browser.")
+    print("Type 'open <url>' to open it in your real browser.")
     print("Type 'exit' to quit.\n")
 
     while True:
@@ -40,8 +40,16 @@ def main():
         # If user types "open <url>"
         if url.lower().startswith("open "):
             real_url = url.split(" ", 1)[1]
-            print(f"Opening {real_url} in your browser...")
-            webbrowser.open(real_url)
+
+            # If proxy is set, open THROUGH the proxy
+            if proxy:
+                proxied_url = f"{proxy}/{real_url}"
+                print(f"Opening through proxy: {proxied_url}")
+                webbrowser.open(proxied_url)
+            else:
+                print(f"Opening: {real_url}")
+                webbrowser.open(real_url)
+
             continue
 
         try:
